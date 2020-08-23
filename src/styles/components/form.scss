@@ -1,0 +1,13 @@
+.info-text-form{
+  text-align: center;
+  margin: 10px 0px;
+}
+.bmd-form-group [class*=" bmd-label"], .bmd-form-group [class^=bmd-label]{
+  position: relative;
+}
+
+.form-group{
+  .invalid{
+    color: #f44336;
+  }
+}
