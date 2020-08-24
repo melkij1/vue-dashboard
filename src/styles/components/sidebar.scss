@@ -25,4 +25,15 @@
     outline: none;
     cursor: pointer;
   }
+  .line {
+    border-bottom: 1px solid #dadada;
+    padding-top: 20px;
+  }
+}
+
+.nav-item {
+  .category-title{
+    font-size: 16px;
+    font-weight: 400;
+  }
 }

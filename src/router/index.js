@@ -21,6 +21,12 @@ Vue.use(VueRouter)
     name: 'Index',
     meta: {layout: 'main'},
     component: () => import('../views/Index.vue')
+  },
+  {
+    path: '/category/:id',
+    name: 'Index',
+    meta: {layout: 'main'},
+    component: () => import('../views/Index.vue')
   }
 ]
 

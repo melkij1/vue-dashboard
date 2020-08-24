@@ -8,6 +8,7 @@
 </template>
 
 <style lang="scss">
+  @import "vue-select/src/scss/vue-select.scss";
   @import './assets/css/material-dashboard.min.css';
   @import './styles/style.scss';
 </style>

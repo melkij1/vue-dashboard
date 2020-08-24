@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuelidate from 'vuelidate';
 import Notifications from 'vue-notification'
+import vSelect from 'vue-select'
 import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
@@ -16,6 +17,7 @@ Vue.config.productionTip = false
 //Vue.use(notificate)
 Vue.use(Vuelidate)
 Vue.use(Notifications)
+Vue.component('v-select', vSelect)
 
 
 firebase.initializeApp({
