@@ -104,12 +104,26 @@ export default {
     
       let testdate = moment(this.date).format('DD-MM-yyyy')
       try {
-        await this.$store.dispatch('createTask', {
+        const newTask = await this.$store.dispatch('createTask', {
           title: this.name,
           categoryId: this.category,
           priority: this.priority,
-          date: moment(this.date).format('DD-MM-yyyy')
+          date: moment(this.date).format('DD-MM-yyyy'),
+          checked: false
         })
+        this.name = '',
+        this.category = '',
+        this.priority = '',
+        this.date = '',
+        this.$v.$reset()
+        this.$notify({
+          group: 'foo',
+          type: 'success',
+          text: 'Задача была создана'
+        })
+        this.$emit('closeModal')
+        console.log(newTask,'task')
+        this.$emit('created', newTask)
       } catch (e) {
 
       }

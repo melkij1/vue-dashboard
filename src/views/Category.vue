@@ -97,8 +97,7 @@
                       <th></th>
                     </thead>
                     <tbody>
-                      
-                      <tr v-for="(task,index) in taskFilter">
+                      <tr v-for="(task,index) in filtered">
                         <td>{{index + 1}}</td>
                         <td>{{task.title}}</td>
                         <td>{{task.date}}</td>
@@ -139,7 +138,7 @@
 <script>
 import { mapGetters,mapActions } from 'vuex'
 export default {
-  name: 'index',
+  name: 'Category',
   props: {
     tasksArray: Array,
   },
@@ -148,31 +147,16 @@ export default {
       'categoryActive'
     ]),
     taskFilter(){
-      if(this.categoryActive.id === 0){
+      if(this.$router.history.current.fullPath === '/'){
         return this.tasksArray
-      }else{
-        console.log(this.categoryActive.id,'else')
-        return this.tasksArray.filter(x => (x.categoryId.id))
-        console.log('else')
+      }else if(this.$router.history.current.params.id !== ''){
+        let id = this.$router.history.current.params.id
+        return this.tasksArray.filter(x => (x.categoryId.id === id))
       }
-      // }else {
-      //   console.log(this.categoryActive,'category active')
-      //   return this.tasksArray.filter(x => (console.log(x)))
-      // }
-      // console.log(this.categoryActive,'category active')
-      // if(this.$router.history.current.fullPath === '/'){
-      //   return this.tasksArray
-      // }else if(this.$router.history.current.params.id !== ''){
-      //   let id = this.$router.history.current.params.id
-      //   return this.tasksArray.filter(x => (x.categoryId.id === id))
-      // }
     }
   },
-  watch: {
-    categoryActive(to,from){
-      taskFilter()
-      //console.log(to,from,'watch')
-    }
+  mounted() {
+    this.filtered()
   },
   methods: {
     ...mapActions([
@@ -182,38 +166,20 @@ export default {
       console.log(val,'vv')
       this.setCurrentCategory(val)
       this.$emit('setcategory', val)
-      this.taskFilter()
+      this.filtered()
     },
-    // taskFilter(arr){
-    //   console.log(arr,'else if ')
-    //   console.log(this.$router.history.current)
-    //   if(this.$router.history.current.name === 'Index'){
-    //     return arr
-    //   } else{
-    //     console.log('else')
-    //     if(this.$router.history.current.params.id !== ''){
-    //       let id = this.$router.history.current.params.id
-    //       return arr.filter(x => ( x.categoryId.id === id))
-    //       // console.log(id,'id router')
-    //     }
-    //   }
-    //   // else if(this.$router.history.current.params.id !== ''){
-    //   //   console.log(arr,'else if ')
-    //   //   let id = this.$router.history.current.params.id
-    //   //   return this.tasksArray.filter(x => (x.categoryId.id === id))
-    //   // }
-    // }
-    // filtered(arr) {
-    //   console.log(this.$router.history.current.fullPath)
-    //   if(this.$router.history.current.fullPath === '/'){
-    //     return arr
-    //   }else if(this.$router.history.current.params.id !== ''){
-    //     let id = this.$router.history.current.params.id
-    //     const list = arr.filter(x => ( x.categoryId.id === id))
-    //     return list
-    //   }
-    //   console.log(this.$router.history.current.params.id , this.tasksArray)
-    // }
+
+    filtered(arr) {
+      console.log(this.$router.history.current.fullPath)
+      if(this.$router.history.current.fullPath === '/'){
+        return arr
+      }else if(this.$router.history.current.params.id !== ''){
+        let id = this.$router.history.current.params.id
+        const list = arr.filter(x => ( x.categoryId.id === id))
+        return list
+      }
+      console.log(this.$router.history.current.params.id , this.tasksArray)
+    }
   }
 
 }

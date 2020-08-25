@@ -12,15 +12,15 @@
       <div class="sidebar-wrapper">
         <ul class="nav">
           <li class="nav-item"
-          :class="{active: currentCategory === null}"
-          @click="setcurrentCategory({id: null, title: 'Все'})">
+          :class="{active: curCategory.id === 0}"
+          @click="setcurrentCategory({id: 0, title: 'Все'})">
             <router-link to="/" class="nav-link">
               <span class="category-title">Все</span>
             </router-link>
           </li>
           <div class="line"></div>
           <li class="nav-item" v-for="category in categories"
-          :class="{active : currentCategory === category}"
+          :class="{active : curCategory.title === category.title}"
            @click="setcurrentCategory(category)">
             <router-link :to="{path:'/category/'+ category.id}" 
             class="nav-link">
@@ -33,29 +33,53 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex'
+import {mapActions, mapState, mapGetters} from 'vuex'
 export default {
   name: 'Sidebar',
   props: {
     toggle : Boolean,
-    categories: Array
+    categories: Array,
+    setCategory: Object
   },
   data: () => ({
-    currentCategory: null
+    curCategory: null
   }),
   mounted(){
-    if(this.currentCategory === null){
-      this.setCurrentCategory({id: null, title: 'Все'})
+    if(this.curCategory === null){
+      this.setCurrentCategory({id: 0, title: 'Все'})
     }
+  },
+  watch:{
+    categoryActive(newCats,oldCats) {
+      if(oldCats !== null){
+        if(newCats.title !== oldCats.title){
+          this.curCategory = newCats
+          console.log(this.curCategory,'curCategory')
+        }else if (newCats.title === 'Все'){
+          this.curCategory = {id: 0, title: 'Все'}
+        }
+      }else {
+        if(newCats.id === 0){
+          this.curCategory = {id: 0, title: 'Все'}
+        }
+      }
+    }
+  },
+  computed: {
+    ...mapState([
+      'currentCategory'
+    ]),
+    ...mapGetters([
+      'categoryActive'
+    ])
   },
   methods: {
     ...mapActions([
       'setCurrentCategory'
     ]),
     setcurrentCategory(val){
-      this.currentCategory = val
+      this.curCategory = val
       this.setCurrentCategory(val)
-      // this.$store.dispatch('setCurrentCategory', val)
     }
   }
 
